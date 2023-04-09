@@ -6,3 +6,8 @@
 //
 
 import Foundation
+import Combine
+
+protocol SearchGamesUseCase {
+    func searchGames(for game: String, at page: Int) -> AnyPublisher<[GameModel], Error>
+}

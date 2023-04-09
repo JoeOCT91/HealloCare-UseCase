@@ -6,3 +6,11 @@
 //
 
 import Foundation
+import Combine
+
+protocol GameDetailUseCase {
+  func getGameDetail(id: Int) -> AnyPublisher<GameModel, Error>
+  func addGameToFav(game: GameModel) -> AnyPublisher<Bool, Error>
+  func isGameFav(game: GameModel) -> AnyPublisher<Bool, Error>
+  func removeGameFav(game: GameModel) -> AnyPublisher<Bool, Error>
+}

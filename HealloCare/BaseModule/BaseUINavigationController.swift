@@ -14,6 +14,9 @@ class BaseUINavigationController: UINavigationController {
     init(navigationIdentifier: TabBarNavigationIdentifier? = nil) {
         self.navigationIdentifier = navigationIdentifier
         super.init(nibName: nil, bundle: nil)
+        let image = navigationIdentifier?.deselected
+        let selectedImage = navigationIdentifier?.selected
+        tabBarItem = UITabBarItem(title: navigationIdentifier?.title, image: image, selectedImage: selectedImage)
     }
     
     required init?(coder aDecoder: NSCoder) {

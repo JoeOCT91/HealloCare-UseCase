@@ -11,6 +11,7 @@ import Moya
 enum APIRouter: TargetType {
     
     case games(_ page: Int)
+    case search(_ keyword: String, _ page: Int)
     case gameDetails(_ id: Int)
     
     var baseURL: URL {
@@ -23,6 +24,8 @@ enum APIRouter: TargetType {
     var path: String {
         switch self {
         case .games:
+            return URLs.games
+        case .search:
             return URLs.games
         case.gameDetails(let gameId):
             return URLs.games.appendingPathComponent(gameId.string)
@@ -37,6 +40,9 @@ enum APIRouter: TargetType {
         switch self {
         case .games(let page):
             let params: [String : Any] = [ParametersKeys.key: APIKey.key, ParametersKeys.page: page]
+            return .requestParameters(parameters: params, encoding: URLEncoding.default)
+        case.search(let keyword, let page):
+            let params: [String : Any] = [ParametersKeys.key: APIKey.key, ParametersKeys.search: keyword, ParametersKeys.page: page]
             return .requestParameters(parameters: params, encoding: URLEncoding.default)
         case .gameDetails:
             let params: [String : Any] = [ParametersKeys.key: APIKey.key]

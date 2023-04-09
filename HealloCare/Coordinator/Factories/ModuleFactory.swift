@@ -5,10 +5,15 @@
 //  Created by Yousef Moahmed on 07/04/2023.
 //
 
-import Foundation
+import UIKit
 
-class ModulesFactory {
+class ModulesFactory: NSObject {
     
+    let repository: GameRepository
+    
+    init(repository: GameRepository) {
+        self.repository = repository
+    }
 }
 
 extension ModulesFactory: TabBarModuleFactory {
@@ -27,19 +32,30 @@ extension ModulesFactory: TabBarModuleFactory {
 extension ModulesFactory: GamesModulesFactory {
     
     func createGamesOutput() -> GamesControllerOutput {
-        let viewModel = BaseViewModel()
-        let controller = GamesController(viewModel: viewModel)
+        let searchHandler = createSearchResultHandler()
+        let viewModel = GamesViewModel(gamesUseCase: repository)
+        let controller = GamesController(viewModel: viewModel, searchResultHandler: searchHandler)
         return controller
     }
     
+    func createGameDetailsHandler(for game: GameModel) -> GameDetailsControllerOutput {
+        let viewModel = GameDetailsViewModel(gameDetailsUseCase: repository, game: game)
+        let controller = GameDetailsController(viewModel: viewModel)
+        return controller
+    }
+    
+    private func createSearchResultHandler() -> SearchResultController {
+        let viewModel = SearchResultViewModel(searchGamesUseCase: repository)
+        let controller = SearchResultController(viewModel: viewModel)
+        return controller
+    }
 }
 
 extension ModulesFactory: FavoritesModulesFactory {
     
     func createFavoritesOutput() -> FavoritesControllerOutput {
-        let viewModel = BaseViewModel()
-        let controller = FavoriteController(viewModel: viewModel)
+        let viewModel = FavoritesGamesViewModel(favoritesGamesUseCase: repository)
+        let controller = FavoritesController(viewModel: viewModel)
         return controller
     }
-
 }

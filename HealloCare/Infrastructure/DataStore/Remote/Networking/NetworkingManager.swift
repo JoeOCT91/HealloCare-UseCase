@@ -10,10 +10,11 @@ import Moya
 
 protocol GameDataSourceProtocol: AnyObject {
     func getGames(page: Int) async -> Result<GamesResponse, Error>
+    func searchGames(keyword: String, page: Int) async -> Result<GamesResponse, Error>
     func getGameDetail(id: Int) async -> Result<GameDetailResponse, Error>
 }
 
-class NetworkManager {
+class NetworkManager: GameDataSourceProtocol {
     
     private static let networkLoggerPlugin: PluginType = NetworkLoggerPlugin(configuration: .init(logOptions: [.requestBody, .successResponseBody, .requestHeaders]))
 
@@ -29,6 +30,10 @@ class NetworkManager {
     
     func getGames(page: Int) async -> Result<GamesResponse, Error> {
         await request(target: .games(page))
+    }
+    
+    func searchGames(keyword: String, page: Int) async -> Result<GamesResponse, Error> {
+        await request(target: .search(keyword, page))
     }
     
     func getGameDetail(id: Int) async -> Result<GameDetailResponse, Error> {

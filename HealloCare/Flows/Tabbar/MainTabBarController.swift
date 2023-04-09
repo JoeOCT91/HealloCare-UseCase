@@ -16,41 +16,29 @@ enum TabBarNavigationIdentifier: Equatable, CaseIterable {
     var title: String {
         switch self {
         case .games:
-            return "Games"
+            return L10n.games
         case .favorites:
-            return "Favorites"
+            return L10n.favourites
         }
     }
-//
-//    var selected: UIImage {
-//        switch self {
-//        case .explore:
-//            return Asset.exploreSelected.image
-//        case .translation:
-//            return Asset.translationSelected.image
-//        case .touters:
-//            return Asset.tutorsSelected.image
-//        case .myCourses:
-//            return Asset.myCoursesSelected.image
-//        case .account:
-//            return Asset.accountSelected.image
-//        }
-//    }
-//
-//    var deselected: UIImage {
-//        switch self {
-//        case .explore:
-//            return Asset.exploreDeselected.image
-//        case .translation:
-//            return Asset.translationDeselected.image
-//        case .touters:
-//            return Asset.tutorsDeselected.image
-//        case .myCourses:
-//            return Asset.myCoursesDeselected.image
-//        case .account:
-//            return Asset.accountDeselected.image
-//        }
-//    }
+
+    var selected: UIImage {
+        switch self {
+        case .games:
+            return Asset.gamesSelected.image
+        case .favorites:
+            return Asset.favorites.image
+        }
+    }
+
+    var deselected: UIImage {
+        switch self {
+        case .games:
+            return Asset.gamesSelected.image
+        case .favorites:
+            return Asset.favoritesSelected.image
+        }
+    }
 }
 
 protocol TabBarControllerOutput: Presentable {
@@ -74,16 +62,11 @@ class MainTabBarController: UITabBarController, TabBarControllerOutput {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.setValue(mainTabBar, forKey: "tabBar")
         self.navigationController?.isNavigationBarHidden = true
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let defaultHeight = tabBar.frame.height
-        let addingToHeight: CGFloat = 0
-        tabBar.frame.size.height = defaultHeight + addingToHeight
-        tabBar.frame.origin.y = view.frame.height - (defaultHeight + addingToHeight)
         navigationControllers.forEach { nav in
             self.onViewDidLoadNavigationControllers.send(nav)
         }

@@ -1,0 +1,26 @@
+input_dir: heallocare/Resources/
+output_dir: heallocare/Resources/
+
+xcassets:
+  inputs: Assets
+  outputs:
+    templateName: swift5
+    output: Assets/Assets.swift
+
+strings:
+  inputs: Strings/Localizable.strings
+  outputs:
+    - templateName: structured-swift5
+      output: Strings/strings.swift
+      
+fonts:
+  inputs: Fonts
+  outputs:
+      templateName: swift5
+      output: Fonts/fonts.swift
+
+colors:
+  inputs: Colors/Colors.txt
+  outputs:
+      templateName: swift5
+      output: Colors/Colors.swift

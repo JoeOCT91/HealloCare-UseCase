@@ -32,7 +32,7 @@ class ApplicationCoordinator: Coordinator {
                     self.runFavoritesFlow(navigationController: navigationController)
                 }
             }.store(in: &subscriptions)
-        router.setRootModule(tabBarOutput)
+        router.setRootModule(tabBarOutput, hideBar: true)
     }
     
     private func runGamesFlow(navigationController: BaseUINavigationController?) {

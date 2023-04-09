@@ -7,6 +7,8 @@
 
 import UIKit
 import SnapKit
+import SwifterSwift
+import CombineCocoa
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -35,8 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func createApplicationCoordinator() -> ApplicationCoordinator {
         let router = WeakRouter(rootController: rootController)
         let coordinatorFactory = CoordinatorsFactory()
-        let modulesFactory = ModulesFactory()
-        return ApplicationCoordinator(router: router, modulesFactory: modulesFactory, coordinatorsFactory: coordinatorFactory)
+        return coordinatorFactory.createApplicationCoordinator(router: router)
     }
 
 }

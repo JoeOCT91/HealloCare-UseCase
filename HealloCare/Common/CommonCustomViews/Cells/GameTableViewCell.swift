@@ -6,9 +6,17 @@
 //
 
 import UIKit
+import Combine
 import Kingfisher
 
 class GameTableViewCell: UITableViewCell {
+    
+    var tapSubscriptions: AnyCancellable?
+    var tapPublisher: AnyPublisher<Void, Never> {
+        tapGesture.tapPublisher.flatMap { _ in
+            return CurrentValueSubject<Void, Never>(())
+        }.eraseToAnyPublisher()
+    }
     
     private let containerView: UIView = {
         let view = UIView(frame: .zero)
@@ -17,6 +25,7 @@ class GameTableViewCell: UITableViewCell {
     
     private let image: UIImageView = {
         let imageView = UIImageView(frame: .zero)
+        imageView.kf.indicatorType = .activity
         return imageView
     }()
     
@@ -29,11 +38,13 @@ class GameTableViewCell: UITableViewCell {
     
     private let metacriticLabel: UILabel = {
         let label = UILabel(frame: .zero)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         return label
     }()
     
     private let genresLabel: UILabel = {
         let label = UILabel(frame: .zero)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         label.font = FontFamily.SFProDisplay.regular.font(size: 14)
         label.textColor = ColorName.darkGray.color
         label.numberOfLines = 0
@@ -42,12 +53,15 @@ class GameTableViewCell: UITableViewCell {
     
     private lazy var containerStack: UIStackView = {
         let arrangedViews = [gameNameLabel, metacriticLabel, genresLabel]
-        let stackView = UIStackView(arrangedSubviews: arrangedViews, axis: .vertical)
+        let stackView = UIStackView(arrangedSubviews: arrangedViews, axis: .vertical, alignment: .top, distribution: .fillProportionally)
         return stackView
     }()
     
+    private let tapGesture = UITapGestureRecognizer()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.addGestureRecognizer(tapGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -91,18 +105,31 @@ class GameTableViewCell: UITableViewCell {
             make.edges.equalToSuperview().inset(edgesInsets)
         }
         
+        containerView.addSubviews([image, gameNameLabel, metacriticLabel, genresLabel])
+        
         containerView.addSubview(image)
         image.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.bottom.equalToSuperview().priority(.medium)
+            make.leading.centerY.equalToSuperview()
+            make.bottom.equalToSuperview().priority(.medium)
             make.height.width.equalTo(120)
         }
         
-        containerView.addSubview(containerStack)
-        containerStack.snp.makeConstraints { make in
-            make.height.bottom.trailing.equalToSuperview()
+        gameNameLabel.snp.makeConstraints { make in
             make.leading.equalTo(image.snp.trailing).offset(16)
+            make.top.trailing.equalToSuperview()
         }
+        
+        metacriticLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(gameNameLabel)
+            make.top.greaterThanOrEqualTo(gameNameLabel.snp.bottom)
+        }
+        
+        genresLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(gameNameLabel)
+            make.top.equalTo(metacriticLabel.snp.bottom)
+            make.bottom.equalToSuperview()
+        }
+
         layoutIfNeeded()
     }
 }

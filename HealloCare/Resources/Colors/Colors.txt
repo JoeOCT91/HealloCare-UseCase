@@ -1,0 +1,5 @@
+white: #ffffff
+black: #000000
+red: #D80000
+darkGray: #8A8A8F
+lightGray: #E0E0E0

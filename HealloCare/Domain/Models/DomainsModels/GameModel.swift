@@ -7,24 +7,16 @@
 
 import Foundation
 
-struct GameModel: Codable, Hashable {
+struct GameModel: Hashable, Equatable, Identifiable {
     
-    let id: Int
-    let name: String
-    let backgroundImage: String
+    var id: Int
+    var name: String
+    var rating: Float
+    var image: String
+    var desc: String
+    var releaseDate: String
     let metacritic: Int
-    let genres: [Genre]
-    
-    var joinedGenres: String {
-        let genres = genres.map({$0.name})
-        let joinedGenres = genres.joined(separator: ", ")
-        return joinedGenres
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name
-        case backgroundImage = "background_image"
-        case metacritic
-        case genres
-    }
+    let genres: String
+    var isFav: Bool
+
 }

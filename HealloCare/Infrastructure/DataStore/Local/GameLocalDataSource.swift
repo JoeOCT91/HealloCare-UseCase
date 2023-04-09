@@ -17,6 +17,7 @@ protocol GameLocalDataSourceProtocol: AnyObject {
 }
 
 final class GameLocalDataSource: NSObject {
+    
     private let realm: Realm?
     
     private init(realm: Realm?) {

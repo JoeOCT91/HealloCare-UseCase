@@ -21,6 +21,10 @@ final class FavoritesCoordinator: Coordinator, FavoritesCoordinatorOutput {
         self.factory = factory
     }
     
+    override func start() {
+        showFavorites()
+    }
+    
     private func showFavorites() {
         let favoritesOutput = factory.createFavoritesOutput()
         router.setRootModule(favoritesOutput)

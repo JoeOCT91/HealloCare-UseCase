@@ -23,12 +23,6 @@ class BaseViewController: UIViewController, AnyController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(viewModel: AnyViewModel, baseView: BaseView) {
-        self.baseViewModel = viewModel
-        //self.baseView = baseView
-        super.init(nibName: nil, bundle: nil)
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
